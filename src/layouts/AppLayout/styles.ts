@@ -1,7 +1,14 @@
 export default {
   root: {
-    display: 'grid',
+    display: 'flex',
+    flexWrap: 'wrap',
     height: '100%',
-    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: 4,
+    '& > div': {
+      width: 'calc(50% - 16px)',
+      '@media (max-width: 900px)': {
+        width: '100%',
+      },
+    },
   },
 };
