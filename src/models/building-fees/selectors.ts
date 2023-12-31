@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { filter, find, flow, get, map, size, sum } from 'lodash/fp';
+import { defaultTo, filter, find, flow, get, map, size, sum } from 'lodash/fp';
 import type { RootState } from 'state';
 import { shouldShareFees } from './utils';
 
@@ -37,8 +37,9 @@ export const overallTotal = (state: RootState) =>
 export const secondFloorDebt = (state: RootState) =>
   createSelector(overallTotal, residents, (overallTotal, residents) => {
     const secondFloorParticipation = flow(
-      find({ floor: '2nd' }), //
+      find({ floor: '2nd' }),
       get('participation'),
+      defaultTo(0),
     )(residents);
 
     const secondFloorDebt = overallTotal * secondFloorParticipation;
@@ -49,8 +50,9 @@ export const secondFloorDebt = (state: RootState) =>
 export const fifthFloorDebt = (state: RootState) =>
   createSelector(overallTotal, residents, (overallTotal, residents) => {
     const fifthFloorParticipation = flow(
-      find({ floor: '5th' }), //
+      find({ floor: '5th' }),
       get('participation'),
+      defaultTo(0),
     )(residents);
 
     const fifthFloorDebt = overallTotal * fifthFloorParticipation;
