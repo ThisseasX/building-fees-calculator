@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -6,6 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { connect, ConnectedProps } from 'react-redux';
 import { v4 as uuid } from 'uuid';
+import { isEmpty, some } from 'lodash/fp';
 import { addResident, clearResidents } from 'models/building-fees';
 import { Residents } from 'components';
 import styles from './styles';
@@ -17,6 +18,11 @@ const ResidentsArea = ({ addResident, clearResidents }: Props) => {
   const [floor, setFloor] = useState('');
   const [participation, setParticipation] = useState('');
   const [isOwner, setIsOwner] = useState(true);
+
+  const isAddDisabled = useMemo(
+    () => some(isEmpty)([name, floor, participation]),
+    [name, floor, participation],
+  );
 
   const handleNameChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +95,12 @@ const ResidentsArea = ({ addResident, clearResidents }: Props) => {
         onChange={handleToggleIsOwner}
       />
 
-      <Button size="small" variant="contained" onClick={handleAddResident}>
+      <Button
+        size="small"
+        variant="contained"
+        onClick={handleAddResident}
+        disabled={isAddDisabled}
+      >
         Add Resident
       </Button>
 

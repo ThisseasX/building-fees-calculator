@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -6,6 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { connect, ConnectedProps } from 'react-redux';
 import { v4 as uuid } from 'uuid';
+import { isEmpty, some } from 'lodash/fp';
 import { addFee, clearFees } from 'models/building-fees';
 import { Fees } from 'components';
 import styles from './styles';
@@ -16,6 +17,11 @@ const FeesArea = ({ addFee, clearFees }: Props) => {
   const [reason, setReason] = useState('');
   const [amount, setAmount] = useState('');
   const [isForOwners, setIsForOwners] = useState(false);
+
+  const isAddDisabled = useMemo(
+    () => some(isEmpty)([reason, amount]),
+    [reason, amount],
+  );
 
   const handleReasonChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +79,12 @@ const FeesArea = ({ addFee, clearFees }: Props) => {
         onChange={handleToggleIsForOwners}
       />
 
-      <Button size="small" variant="contained" onClick={handleAddFee}>
+      <Button
+        size="small"
+        variant="contained"
+        onClick={handleAddFee}
+        disabled={isAddDisabled}
+      >
         Add Fee
       </Button>
 
