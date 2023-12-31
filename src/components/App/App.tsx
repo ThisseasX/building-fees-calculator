@@ -1,11 +1,12 @@
 import React from 'react';
 import { AppSetup, AppLayout } from 'layouts';
-import { Main } from 'components';
+import { FeesArea, ResidentsArea } from 'components';
 
 const App = () => (
   <AppSetup>
     <AppLayout>
-      <Main />
+      <FeesArea />
+      <ResidentsArea />
     </AppLayout>
   </AppSetup>
 );
