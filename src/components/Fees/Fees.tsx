@@ -7,9 +7,9 @@ import TableCell from '@mui/material/TableCell';
 import { connect, ConnectedProps } from 'react-redux';
 import {
   fees,
-  overallTotal,
-  ownerTotal,
   tenantTotal,
+  ownerTotal,
+  overallTotal,
 } from 'models/building-fees';
 import { RootState } from 'state';
 
